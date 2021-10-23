@@ -44,9 +44,6 @@ def preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_) -> \
      significant weather forecast)
     and two tuples with the y-axis limits for the temperature and pressure
     """
-
-    # preprocess:
-
     df = df_mess_.set_index('zeit')
     light = df['hell'].dropna()
     on_off = list(light.loc[light != light.shift(-1)][:-1].index)
