@@ -25,7 +25,6 @@ def load_data(con_: 'mariadb.connection') -> (pd.DataFrame, pd.DataFrame, pd.Dat
 
     df_raw = pd.read_sql(con=con_, sql=f"""
         select
-            select
             id, ts, station_id, last_update,
             temperatur, druck, sonnenscheinminuten, wind_max_1h, wind, niederschlag_1h, p_regen, ww
         from wetter.forecast_dwd
@@ -99,7 +98,7 @@ def draw_graph(df_mess_: pd.DataFrame,
 
     # Draw:
     plot_title = 'Wetterdaten (letzte 3 Tage); erstellt: ' \
-                 + (pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%M-%d %H:%m")
+                 + (pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%m-%d %H:%M")
     ax_t = df_agg.temperature.plot(grid=True, secondary_y=True, figsize=(12, 8), style='-', color='red', linewidth=3.5,
                                    title=plot_title)
 
@@ -193,8 +192,8 @@ def draw_fc(df_fc_raw_: pd.DataFrame, df_ww_codes_: pd.DataFrame,
 
     ax1_r.set_ylabel('Windgeschwindigkeit in m/s', color='green')
     ax1.set_title(
-        (f'dwd Vorhersage, erstellt: {(pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%M-%d %H:%m")}'
-         f', MOSMIX Daten von {last_update.strftime("%Y-%M-%d %H:%m")}')
+        (f'dwd Vorhersage, erstellt: {(pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%m-%d %H:%M")}'
+         f', MOSMIX Daten von {last_update.strftime("%Y-%m-%d %H:%M")}')
     )
     ax1.fill_between(x=sonne.index,
                      y1=[item for sublist in sonne[['sonnenscheinminuten']].values.tolist() for item in sublist],
