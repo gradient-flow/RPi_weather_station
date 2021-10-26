@@ -55,9 +55,12 @@ def read_bmp280_vals(address: int = 0x76) -> (float, float):
     i2c = busio.I2C(board.SCL, board.SDA)
     bmp280 = adafruit_bmp280.Adafruit_BMP280_I2C(i2c, address=address)
     bmp280.sea_level_pressure = 1025.25
+    bmp280._mode = adafruit_bmp280.MODE_SLEEP
+    bmp280._t_standby = adafruit_bmp280.STANDBY_TC_1000
 
     temperature = bmp280.temperature
     pressure = bmp280.pressure
+    bmp280._mode = adafruit_bmp280.MODE_SLEEP
     del bmp280
 
     return temperature, pressure
