@@ -225,14 +225,9 @@ def draw_fc(df_fc_raw_: pd.DataFrame, df_ww_codes_: pd.DataFrame,
         
     # day of week texts:
     day_locs = [p for p in positions if (p.hour == 12)]
-    weekdays = {0: 'So', 1: 'Mo', 2: 'Di', 3: 'Mi', 4: 'Do', 5: 'Fr', 6: 'Sa'}
-    day_labels = [weekdays.get(d.weekday(), '') for d in day_locs]
+    weekdays = {6: 'So', 0: 'Mo', 1: 'Di', 2: 'Mi', 3: 'Do', 4: 'Fr', 5: 'Sa'}
     for i, dl in enumerate(day_locs):
-            plt.text(dl,
-                     top + 5,
-                     weekdays.get(dl.weekday(), ''),  # weekday
-                     size=16, color='black')
-
+        plt.text(dl, top + 5, weekdays.get(dl.weekday(), ''), size=16, color='black')
     plt.savefig(path)
     return plt
 
