@@ -9,7 +9,7 @@ Reads the publicly available dwd opendata forecast such as temperaure, significa
 #### get_wetter_text_to_db.py
 Reads the DWD Strassenwettervorhersage for Bavaria from http://141.38.2.26/weather/text_forecasts/html/VHDL50_DWMG_LATEST_html and saves it into the DB.
 
-#### emperature_pressure_db.py
+#### temperature_pressure_db.py
 Connects to the temperature, pressure and light sensors, reads the values and stores them in the DB.
 
 #### wetter_graph.py
