@@ -222,6 +222,16 @@ def draw_fc(df_fc_raw_: pd.DataFrame, df_ww_codes_: pd.DataFrame,
                  bottom + 1,
                  f'{significant_weather.iloc[i, 2]}  ({significant_weather.iloc[i, 1]})',
                  rotation='vertical', color='grey', alpha=0.8)
+        
+    # day of week texts:
+    day_locs = [p for p in positions if (p.hour == 12)]
+    weekdays = {0: 'So', 1: 'Mo', 2: 'Di', 3: 'Mi', 4: 'Do', 5: 'Fr', 6: 'Sa'}
+    day_labels = [weekdays.get(d.weekday(), '') for d in day_locs]
+    for i, dl in enumerate(day_locs):
+            plt.text(dl,
+                     top + 5,
+                     weekdays.get(dl.weekday(), ''),  # weekday
+                     size=16, color='black')
 
     plt.savefig(path)
     return plt
