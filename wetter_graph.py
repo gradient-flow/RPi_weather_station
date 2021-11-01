@@ -51,6 +51,7 @@ def preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_) -> \
     df_agg = df.resample('30min').agg(
         {'temperature': 'mean', 'pressure': 'mean', 'hell': 'median'})
 
+
     # graph limits:
     a_p = df_agg.pressure.min()
     b_p = df_agg.pressure.max()
@@ -61,8 +62,9 @@ def preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_) -> \
     df_agg['hell'] = (a_p - 50) + df_agg['hell'] * (b_p + 100 - a_p)  # interpolate between pressure values
 
     # Forecast:
-    fc = df_fc_raw_.loc[(df_fc_raw_.ts >= pd.to_datetime('now'))
-                        & (df_fc_raw_.ts <= pd.to_datetime('now') + pd.DateOffset(hours=36))].copy()
+    now = pd.Timestamp.now(tz='CET')
+    fc = df_fc_raw_.loc[(df_fc_raw_.ts.dt.tz_localize('CET') >= now)
+                        & (df_fc_raw_.ts.dt.tz_localize('CET') <= now + pd.DateOffset(hours=36))].copy()
     mittel = fc.groupby('ts').mean()
 
     wetter = (fc.groupby('ts')
@@ -93,8 +95,8 @@ def draw_graph(df_mess_: pd.DataFrame,
     df_agg, mittel, on_off, wetter, lims_t, lims_p = preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_)
 
     # Draw:
-    plot_title = 'Wetterdaten (letzte 3 Tage); erstellt: ' \
-                 + (pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%m-%d %H:%M")
+
+    plot_title = f'Wetterdaten (letzte 3 Tage); erstellt: {pd.Timestamp.now(tz="CET").strftime("%Y-%m-%d %H:%M")}'
     ax_t = df_agg.temperature.plot(grid=True, secondary_y=True, figsize=(12, 8), style='-', color='red', linewidth=3.5,
                                    title=plot_title)
 
@@ -188,8 +190,8 @@ def draw_fc(df_fc_raw_: pd.DataFrame, df_ww_codes_: pd.DataFrame,
 
     ax1_r.set_ylabel('Windgeschwindigkeit in m/s', color='green')
     ax1.set_title(
-        (f'dwd Vorhersage, erstellt: {(pd.to_datetime("now") + pd.Timedelta("2h")).strftime("%Y-%m-%d %H:%M")}'
-         f', MOSMIX Daten von {last_update.strftime("%Y-%m-%d %H:%M")}')
+        (f'dwd Vorhersage, erstellt: {pd.Timestamp.now(tz="CET").strftime("%Y-%m-%d %H:%M")}; '
+         f'MOSMIX Daten von {last_update.strftime("%Y-%m-%d %H:%M")}')
     )
     ax1.fill_between(x=sonne.index,
                      y1=[item for sublist in sonne[['sonnenscheinminuten']].values.tolist() for item in sublist],
