@@ -4,7 +4,7 @@ import sys
 import mariadb
 import logging
 
-from src.dwd_data import DwdForecastLoader
+from src.dwd import DwdForecastLoader
 
 import public_passwords as pw
 

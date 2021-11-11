@@ -4,7 +4,7 @@ import mariadb
 import sys
 import logging
 
-from src.dwd_data import TextToDB
+from src.dwd import TextToDB
 
 import public_passwords as pw
 
