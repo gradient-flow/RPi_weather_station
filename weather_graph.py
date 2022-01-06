@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import sys
-from time import sleep
+# from time import sleep
 import logging
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+# import matplotlib.ticker as ticker
 import mariadb
 
 import public_passwords as pw
