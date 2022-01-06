@@ -59,7 +59,7 @@ class TextToDB:
             try:
                 cur.execute(f"""INSERT INTO forecast_text 
                                 (ts, forecast, fc_text) VALUES 
-                                (CURRENT_TIMESTAMP , 1, '{txt}')""")
+                                (CURRENT_TIMESTAMP , 1, '{self._text}')""")
             except mariadb.Error as e:
                 logging.error(f'Error when inserting text: {e}')
                 pass
