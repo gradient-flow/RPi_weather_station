@@ -51,7 +51,6 @@ def preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_) -> \
     df_agg = df.resample('30min').agg(
         {'temperature': 'mean', 'pressure': 'mean', 'hell': 'median'})
 
-
     # graph limits:
     a_p = df_agg.pressure.min()
     b_p = df_agg.pressure.max()
@@ -63,8 +62,8 @@ def preprocess_graph(df_mess_, df_fc_raw_, df_ww_codes_) -> \
 
     # Forecast:
     now = pd.Timestamp.now(tz='CET')
-    fc = df_fc_raw_.loc[(df_fc_raw_.ts.dt.tz_localize('CET') >= now)
-                        & (df_fc_raw_.ts.dt.tz_localize('CET') <= now + pd.DateOffset(hours=36))].copy()
+    fc = df_fc_raw_.loc[(df_fc_raw_['ts'].dt.tz_localize('CET') >= now)
+                        & (df_fc_raw_['ts'].dt.tz_localize('CET') <= now + pd.DateOffset(hours=36))].copy()
     mittel = fc.groupby('ts').mean()
 
     wetter = (fc.groupby('ts')
